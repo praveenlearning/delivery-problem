@@ -44,4 +44,14 @@ class PackageDispatcherTest {
 
         assertEquals(expected, finalAmount);
     }
+
+    @Test
+    public void shouldReturnDetailsAboutDiscountAndPrice() {
+        Package pkg = Package.parsePackage("PKG1 75 50 OFR001");
+
+        String expected = "PKG1 110 990";
+        String finalAmount = dispatcher.detail(pkg);
+
+        assertEquals(expected, finalAmount);
+    }
 }

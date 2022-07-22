@@ -23,4 +23,8 @@ public class PackageDispatcher {
     public int finalCost(Package pkg) {
         return calculateCost(pkg) - calculateDiscount(pkg);
     }
+
+    public String detail(Package pkg) {
+        return pkg.packageId + " " + calculateDiscount(pkg) + " " + finalCost(pkg);
+    }
 }
