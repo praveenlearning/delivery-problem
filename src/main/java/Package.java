@@ -21,9 +21,7 @@ public class Package {
         String offerCode = null;
         try {
             offerCode = packageInput[3];
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("No offer code provided");
-        }
+        } catch (ArrayIndexOutOfBoundsException ignored) {}
         return new Package(packageId, weight, distance, offerCode);
     }
 
