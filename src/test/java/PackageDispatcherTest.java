@@ -54,7 +54,7 @@ class PackageDispatcherTest {
     public void shouldReturnDetailsAboutDiscountAndPrice() {
         Package pkg = Package.parsePackage("PKG1 75 50 OFR001");
 
-        String expected = "PKG1 110 990";
+        String expected = "PKG1\t\t110\t\t990";
         String finalAmount = dispatcher.detail(pkg);
 
         assertEquals(expected, finalAmount);

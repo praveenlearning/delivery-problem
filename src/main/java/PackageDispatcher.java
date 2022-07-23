@@ -34,7 +34,7 @@ public class PackageDispatcher {
     }
 
     public String detail(Package pkg) {
-        return pkg.packageId + " " + calculateDiscount(pkg) + " " + finalCost(pkg);
+        return pkg.packageId + "\t\t" + calculateDiscount(pkg) + "\t\t" + finalCost(pkg);
     }
 
     public List<Package> findPackagesForVehicle(List<Package> packageList, Vehicle vehicle) {

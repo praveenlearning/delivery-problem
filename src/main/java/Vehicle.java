@@ -38,7 +38,7 @@ public class Vehicle {
             int maxSpeed = Integer.parseInt(inputArray[1]);
             int maxWeight = Integer.parseInt(inputArray[2]);
             for (int i = 0; i < nVehicles; i++) vehicles.add(new Vehicle(maxSpeed, maxWeight));
-        } catch (Exception ignored) {}
+        } catch (Exception ex) { ex.printStackTrace(); }
 
         return vehicles;
     }
