@@ -106,4 +106,22 @@ class PackageDispatcherTest {
 
         assertEquals(expected, report);
     }
+
+    @Test
+    public void shouldShowMaxTimeForPackagesIfNoVehicleIsValid() {
+        List<Package> packages = new ArrayList<>() {{
+            add(Package.parsePackage("PKG1 110 60 OFR001"));
+            add(Package.parsePackage("PKG2 125 120 OFR008"));
+            add(Package.parsePackage("PKG3 175 180 OFR003"));
+            add(Package.parsePackage("PKG4 110 120 OFR002"));
+            add(Package.parsePackage("PKG5 155 140 NA"));
+        }};
+
+        List<Vehicle> vehicles = Vehicle.parseVehicles("2 70 100");
+        PackageDispatcher dispatcher = new PackageDispatcher(100, vehicles);
+
+        Map<Package, Double> report = dispatcher.dispatch(packages);
+
+        assertEquals(0, report.size());
+    }
 }

@@ -64,7 +64,7 @@ public class PackageDispatcher {
     }
 
     public Map<Package, Double> dispatch(List<Package> packages) {
-        Map<Package, Double> deliveredPackagesReport = packages.stream().collect(Collectors.toMap(p -> p, p -> Double.MAX_VALUE));
+        Map<Package, Double> deliveredPackagesReport = new HashMap<>();
 
         while (packages.size() != 0 && vehicles.size() > 0) {
             Optional<Vehicle> vehicleOption = vehicles.stream().filter(Vehicle::isAvailable).min(Comparator.comparingDouble(Vehicle::availableIn));
