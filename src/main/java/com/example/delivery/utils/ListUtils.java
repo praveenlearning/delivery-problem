@@ -1,3 +1,7 @@
+package com.example.delivery.utils;
+
+import com.example.delivery.model.Package;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +22,10 @@ public class ListUtils {
     }
 
     public static int totalWeightOfPackageList(List<Package> packageList) {
-        return packageList.stream().mapToInt(pkg -> pkg.weight).sum();
+        return packageList.stream().mapToInt(Package::getWeight).sum();
     }
 
     public static int totalDistanceOfPackageList(List<Package> packageList) {
-        return packageList.stream().mapToInt(pkg -> pkg.distance).sum();
+        return packageList.stream().mapToInt(Package::getDistance).sum();
     }
 }

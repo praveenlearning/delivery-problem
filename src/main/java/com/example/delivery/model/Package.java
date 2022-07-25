@@ -1,3 +1,5 @@
+package com.example.delivery.model;
+
 import java.util.Objects;
 
 public class Package {
@@ -25,13 +27,29 @@ public class Package {
         return new Package(packageId, weight, distance, offerCode);
     }
 
+    public String getPackageId() {
+        return packageId;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public String getOfferCode() {
+        return offerCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Package aPackage = (Package) o;
         return weight == aPackage.weight && distance == aPackage.distance && packageId.equals(aPackage.packageId)
-                && ((offerCode == null && aPackage.offerCode == null) || offerCode.equals(aPackage.offerCode));
+                && Objects.equals(offerCode, aPackage.offerCode);
     }
 
     @Override

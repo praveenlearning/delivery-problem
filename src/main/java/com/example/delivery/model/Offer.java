@@ -1,3 +1,5 @@
+package com.example.delivery.model;
+
 import java.util.function.Predicate;
 
 public class Offer {

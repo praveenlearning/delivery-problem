@@ -1,3 +1,9 @@
+package com.example.delivery;
+
+import com.example.delivery.model.Package;
+import com.example.delivery.model.Vehicle;
+import com.example.delivery.service.PackageDispatcher;
+
 import java.util.*;
 
 public class DeliveryTimeEstimator {

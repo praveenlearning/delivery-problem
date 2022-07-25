@@ -1,3 +1,5 @@
+package com.example.delivery.model;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -52,6 +54,18 @@ public class Vehicle {
     }
 
     public double availableIn() {
+        return availableIn;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public int getMaxWeight() {
+        return maxWeight;
+    }
+
+    public double getAvailableIn() {
         return availableIn;
     }
 

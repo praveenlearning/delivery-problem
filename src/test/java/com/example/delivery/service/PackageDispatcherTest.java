@@ -1,3 +1,7 @@
+package com.example.delivery.service;
+
+import com.example.delivery.model.Package;
+import com.example.delivery.model.Vehicle;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

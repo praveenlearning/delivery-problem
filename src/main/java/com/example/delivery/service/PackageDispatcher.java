@@ -1,3 +1,11 @@
+package com.example.delivery.service;
+
+import com.example.delivery.model.Offer;
+import com.example.delivery.model.Package;
+import com.example.delivery.model.Vehicle;
+import com.example.delivery.utils.ListUtils;
+import com.example.delivery.utils.OfferUtil;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,11 +23,11 @@ public class PackageDispatcher {
     }
 
     public int calculateCost(Package pkg) {
-        return basePrice + pkg.weight * 10 + pkg.distance * 5;
+        return basePrice + pkg.getWeight() * 10 + pkg.getDistance() * 5;
     }
 
     public int calculateDiscount(Package pkg) {
-        Offer offer = OfferUtil.allOffers.get(pkg.offerCode);
+        Offer offer = OfferUtil.allOffers.get(pkg.getOfferCode());
         try {
             int discount = offer.apply(pkg);
             int totalCost = calculateCost(pkg);
@@ -34,7 +42,7 @@ public class PackageDispatcher {
     }
 
     public String detail(Package pkg) {
-        return pkg.packageId + "\t\t" + calculateDiscount(pkg) + "\t\t" + finalCost(pkg);
+        return pkg.getPackageId() + "\t\t" + calculateDiscount(pkg) + "\t\t" + finalCost(pkg);
     }
 
     public List<Package> findPackagesForVehicle(List<Package> packageList, Vehicle vehicle) {
@@ -42,7 +50,10 @@ public class PackageDispatcher {
 
         for (int i = packageList.size(); i > 0; i--) {
             int finalI = i;
-            List<List<Package>> validPackagesList = possibleSubsets.stream().filter(subset -> subset.size() == finalI).filter(list -> ListUtils.totalWeightOfPackageList(list) < vehicle.maxWeight).collect(Collectors.toList());
+            List<List<Package>> validPackagesList = possibleSubsets.stream()
+                    .filter(subset -> subset.size() == finalI)
+                    .filter(list -> ListUtils.totalWeightOfPackageList(list) < vehicle.getMaxWeight())
+                    .collect(Collectors.toList());
 
             int validPackagesListCount = validPackagesList.size();
             if (validPackagesListCount >= 1) {
