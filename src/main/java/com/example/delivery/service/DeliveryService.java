@@ -40,6 +40,7 @@ public class DeliveryService {
     }
 
     public List<PackageDeliveryReport> dispatch(List<Package> packages) {
+        List<Package> packagesCopy = new ArrayList<>(packages);
         Map<Package, Double> deliveryReports = new HashMap<>();
         while (packages.size() != 0 && vehicles.size() > 0) {
             Optional<Vehicle> vehicleOption = filterAvailableVehiclesInOrderOfAvailabilityTime(vehicles);
@@ -55,7 +56,7 @@ public class DeliveryService {
                 vehicle.setUnavailable();
             }
         }
-        return packageService.createDeliveryReport(deliveryReports);
+        return packageService.createDeliveryReport(packagesCopy, deliveryReports);
     }
 
     private List<List<Package>> sortPackagesListsByWeightThenDistance(List<List<Package>> packagesLists) {

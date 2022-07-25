@@ -26,6 +26,6 @@ public class DeliveryCostEstimator {
 
         PackageService packageService = new PackageService(baseCost);
 
-        packages.forEach(pkg -> System.out.println(packageService.details(pkg)));
+        packages.forEach(pkg -> System.out.println(packageService.costReport(pkg)));
     }
 }

@@ -55,16 +55,11 @@ class DeliveryServiceTest {
             add(new PackageDeliveryReport(new PackageCostReport("PKG1", 0, 750), 3.98));
         }});
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
-        DeliveryService dispatcher = new DeliveryService(packageService, vehicleService, vehicles);
+        DeliveryService deliveryService = new DeliveryService(packageService, vehicleService, vehicles);
 
-        Set<PackageDeliveryReport> report = new HashSet<>(dispatcher.dispatch(packages));
+        Set<PackageDeliveryReport> report = new HashSet<>(deliveryService.dispatch(packages));
 
-        assertEquals(expected.size(), report.size());
-        expected.forEach(item -> {
-            assertTrue(report.contains(item));
-            report.remove(item);
-        });
-        assertEquals(0, report.size());
+        assertEquals(expected, report);
     }
 
     @Test
@@ -78,10 +73,12 @@ class DeliveryServiceTest {
         }};
 
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 100");
-        DeliveryService dispatcher = new DeliveryService(packageService, vehicleService, vehicles);
+        DeliveryService deliveryService = new DeliveryService(packageService, vehicleService, vehicles);
 
-        List<PackageDeliveryReport> report = dispatcher.dispatch(packages);
+        List<PackageDeliveryReport> report = deliveryService.dispatch(packages);
 
-        assertEquals(0, report.size());
+        List<PackageDeliveryReport> expected = packageService.createDeliveryReport(packages, Map.of());
+
+        assertEquals(expected, report);
     }
 }

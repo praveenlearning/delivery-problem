@@ -55,7 +55,7 @@ class PackageServiceTest {
         Package pkg = new Package("PKG1", 75, 50, "OFR001");
 
         PackageCostReport expected = new PackageCostReport("PKG1", 110, 990);
-        PackageCostReport finalAmount = packageService.details(pkg);
+        PackageCostReport finalAmount = packageService.costReport(pkg);
 
         assertEquals(expected, finalAmount);
     }

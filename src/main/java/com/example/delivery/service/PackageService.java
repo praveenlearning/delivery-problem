@@ -32,15 +32,15 @@ public class PackageService {
         return calculateCost(pkg) - calculateDiscount(pkg);
     }
 
-    public PackageCostReport details(Package pkg) {
+    public PackageCostReport costReport(Package pkg) {
         return new PackageCostReport(pkg.getPackageId(), calculateDiscount(pkg), finalCost(pkg));
     }
 
-    public List<PackageDeliveryReport> createDeliveryReport(Map<Package, Double> packageDeliveryReport) {
-        return packageDeliveryReport.entrySet()
-                .stream().map(entry -> {
-                    PackageCostReport costReport = details(entry.getKey());
-                    return new PackageDeliveryReport(costReport, entry.getValue());
-                }).collect(Collectors.toList());
+    public List<PackageDeliveryReport> createDeliveryReport(List<Package> packages, Map<Package, Double> packageDeliveryReport) {
+        return packages.stream().map(pkg -> {
+            double deliveryTime = packageDeliveryReport.getOrDefault(pkg, Double.MAX_VALUE);
+            PackageCostReport costReport = costReport(pkg);
+            return new PackageDeliveryReport(costReport, deliveryTime);
+        }).collect(Collectors.toList());
     }
 }

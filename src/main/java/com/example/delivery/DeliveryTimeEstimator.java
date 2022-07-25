@@ -30,10 +30,10 @@ public class DeliveryTimeEstimator {
 
         PackageService packageService = new PackageService(baseCost);
         VehicleService vehicleService = new VehicleService();
-        DeliveryService dispatcher = new DeliveryService(packageService, vehicleService, vehicles);
+        DeliveryService deliveryService = new DeliveryService(packageService, vehicleService, vehicles);
 
         System.out.println("Delivery Report");
-        List<PackageDeliveryReport> reports = dispatcher.dispatch(new ArrayList<>(packages));
+        List<PackageDeliveryReport> reports = deliveryService.dispatch(new ArrayList<>(packages));
         reports.forEach(System.out::println);
     }
 }
