@@ -1,10 +1,8 @@
 package com.example.delivery.service;
 
-import com.example.delivery.model.Offer;
 import com.example.delivery.model.Package;
 import com.example.delivery.model.Vehicle;
 import com.example.delivery.utils.ListUtils;
-import com.example.delivery.utils.OfferUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,29 +18,6 @@ public class PackageDispatcher {
     public PackageDispatcher(int basePrice, List<Vehicle> vehicles) {
         this.basePrice = basePrice;
         this.vehicles.addAll(vehicles);
-    }
-
-    public int calculateCost(Package pkg) {
-        return basePrice + pkg.getWeight() * 10 + pkg.getDistance() * 5;
-    }
-
-    public int calculateDiscount(Package pkg) {
-        Offer offer = OfferUtil.allOffers.get(pkg.getOfferCode());
-        try {
-            int discount = offer.apply(pkg);
-            int totalCost = calculateCost(pkg);
-            return totalCost * discount / 100;
-        } catch (NullPointerException ex) {
-            return 0;
-        }
-    }
-
-    public int finalCost(Package pkg) {
-        return calculateCost(pkg) - calculateDiscount(pkg);
-    }
-
-    public String detail(Package pkg) {
-        return pkg.getPackageId() + "\t\t" + calculateDiscount(pkg) + "\t\t" + finalCost(pkg);
     }
 
     public List<Package> findPackagesForVehicle(List<Package> packageList, Vehicle vehicle) {

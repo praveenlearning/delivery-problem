@@ -1,7 +1,7 @@
 package com.example.delivery;
 
 import com.example.delivery.model.Package;
-import com.example.delivery.service.PackageDispatcher;
+import com.example.delivery.service.PackageService;
 import com.example.delivery.utils.InputParser;
 
 import java.util.ArrayList;
@@ -24,7 +24,8 @@ public class DeliveryCostEstimator {
             packages.add(pkg);
         }
 
-        PackageDispatcher dispatcher = new PackageDispatcher(baseCost);
-        packages.forEach(pkg -> System.out.println(dispatcher.detail(pkg)));
+        PackageService packageService = new PackageService(baseCost);
+
+        packages.forEach(pkg -> System.out.println(packageService.details(pkg)));
     }
 }
