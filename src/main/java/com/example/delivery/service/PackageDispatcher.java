@@ -60,13 +60,14 @@ public class PackageDispatcher {
                 if (validPackagesListCount == 1) {
                     return validPackagesList.get(0);
                 } else {
-                    List<List<Package>> sortedValidPackagesListByWeight = validPackagesList.stream().sorted((l1, l2) -> {
-                        int sortCondition = ListUtils.totalWeightOfPackageList(l2) - ListUtils.totalWeightOfPackageList(l1);
-                        if (sortCondition == 0) {
-                            sortCondition = ListUtils.totalDistanceOfPackageList(l1) - ListUtils.totalDistanceOfPackageList(l2);
-                        }
-                        return sortCondition;
-                    }).collect(Collectors.toList());
+                    List<List<Package>> sortedValidPackagesListByWeight = validPackagesList.stream()
+                            .sorted((l1, l2) -> {
+                                int sortCondition = ListUtils.totalWeightOfPackageList(l2) - ListUtils.totalWeightOfPackageList(l1);
+                                if (sortCondition == 0) {
+                                    sortCondition = ListUtils.totalDistanceOfPackageList(l1) - ListUtils.totalDistanceOfPackageList(l2);
+                                }
+                                return sortCondition;
+                            }).collect(Collectors.toList());
                     return sortedValidPackagesListByWeight.get(0);
                 }
             }
@@ -78,7 +79,9 @@ public class PackageDispatcher {
         Map<Package, Double> deliveredPackagesReport = new HashMap<>();
 
         while (packages.size() != 0 && vehicles.size() > 0) {
-            Optional<Vehicle> vehicleOption = vehicles.stream().filter(Vehicle::isAvailable).min(Comparator.comparingDouble(Vehicle::availableIn));
+            Optional<Vehicle> vehicleOption = vehicles.stream()
+                    .filter(Vehicle::isAvailable)
+                    .min(Comparator.comparingDouble(Vehicle::getAvailableIn));
 
             if (vehicleOption.isEmpty()) break;
             Vehicle vehicle = vehicleOption.get();

@@ -3,6 +3,7 @@ package com.example.delivery;
 import com.example.delivery.model.Package;
 import com.example.delivery.model.Vehicle;
 import com.example.delivery.service.PackageDispatcher;
+import com.example.delivery.utils.InputParser;
 
 import java.util.*;
 
@@ -17,12 +18,12 @@ public class DeliveryTimeEstimator {
         for (int i = 0; i < packagesCount; i++) {
             System.out.println("Package-" + (i + 1) + " info");
             String input = scanner.nextLine();
-            Package pkg = Package.parsePackage(input);
+            Package pkg = InputParser.parsePackage(input);
             packages.add(pkg);
         }
 
         System.out.println("vehicles info");
-        List<Vehicle> vehicles = Vehicle.parseVehicles(scanner.nextLine());
+        List<Vehicle> vehicles = InputParser.parseVehicles(scanner.nextLine());
         PackageDispatcher dispatcher = new PackageDispatcher(baseCost, vehicles);
 
         System.out.println("Delivery Report");

@@ -2,6 +2,7 @@ package com.example.delivery.service;
 
 import com.example.delivery.model.Package;
 import com.example.delivery.model.Vehicle;
+import com.example.delivery.utils.InputParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ class PackageDispatcherTest {
 
     @Test
     public void shouldCalculateTotalCostForPackage() {
-        Package pkg = Package.parsePackage("PKG1 15 5 OFR001");
+        Package pkg = new Package("PKG1", 15, 5, "OFR001");
 
         int expected = 275;
         int cost = dispatcher.calculateCost(pkg);
@@ -26,7 +27,7 @@ class PackageDispatcherTest {
 
     @Test
     public void shouldCalculateDiscountForPackage() {
-        Package pkg = Package.parsePackage("PKG1 75 50 OFR001");
+        Package pkg = new Package("PKG1", 75, 50, "OFR001");
 
         int expected = 110;
         int discount = dispatcher.calculateDiscount(pkg);
@@ -36,7 +37,7 @@ class PackageDispatcherTest {
 
     @Test
     public void shouldReturnZeroDiscountForInvalidOfferCode() {
-        Package pkg = Package.parsePackage("PKG1 75 50 INVALID");
+        Package pkg = new Package("PKG1", 75, 50, "INVALID");
 
         int expected = 0;
         int discount = dispatcher.calculateDiscount(pkg);
@@ -46,7 +47,7 @@ class PackageDispatcherTest {
 
     @Test
     public void shouldCalculateTotalCostWithDiscount() {
-        Package pkg = Package.parsePackage("PKG1 75 50 OFR001");
+        Package pkg = new Package("PKG1", 75, 50, "OFR001");
 
         int expected = 990;
         int finalAmount = dispatcher.finalCost(pkg);
@@ -56,7 +57,7 @@ class PackageDispatcherTest {
 
     @Test
     public void shouldReturnDetailsAboutDiscountAndPrice() {
-        Package pkg = Package.parsePackage("PKG1 75 50 OFR001");
+        Package pkg = new Package("PKG1", 75, 50, "OFR001");
 
         String expected = "PKG1\t\t110\t\t990";
         String finalAmount = dispatcher.detail(pkg);
@@ -67,20 +68,19 @@ class PackageDispatcherTest {
     @Test
     public void shouldFindAvailablePackagesForVehicle() {
         List<Package> packages = new ArrayList<>() {{
-            add(Package.parsePackage("PKG1 50 30 OFR001"));
-            add(Package.parsePackage("PKG2 75 125 OFR008"));
-            add(Package.parsePackage("PKG3 175 100 OFR003"));
-            add(Package.parsePackage("PKG4 110 60 OFR002"));
-            add(Package.parsePackage("PKG5 155 95 NA"));
+            add(new Package("PKG1", 50, 30, "OFR001"));
+            add(new Package("PKG2", 75, 125, "OFR008"));
+            add(new Package("PKG3", 175, 100, "OFR003"));
+            add(new Package("PKG4", 110, 60, "OFR002"));
+            add(new Package("PKG5", 155, 95, "NA"));
         }};
 
         List<Package> expected = new ArrayList<>() {{
             add(packages.get(1));
             add(packages.get(3));
         }};
-        List<Vehicle> vehicles = Vehicle.parseVehicles("2 70 200");
-        List<Package> packagesAvailable = new PackageDispatcher(100, vehicles)
-                .findPackagesForVehicle(packages, vehicles.get(0));
+        List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
+        List<Package> packagesAvailable = new PackageDispatcher(100, vehicles).findPackagesForVehicle(packages, vehicles.get(0));
 
         assertEquals(expected, packagesAvailable);
 
@@ -89,11 +89,11 @@ class PackageDispatcherTest {
     @Test
     public void shouldReturnDeliveryReport() {
         List<Package> packages = new ArrayList<>() {{
-            add(Package.parsePackage("PKG1 50 30 OFR001"));
-            add(Package.parsePackage("PKG2 75 125 OFR008"));
-            add(Package.parsePackage("PKG3 175 100 OFR003"));
-            add(Package.parsePackage("PKG4 110 60 OFR002"));
-            add(Package.parsePackage("PKG5 155 95 NA"));
+            add(new Package("PKG1", 50, 30, "OFR001"));
+            add(new Package("PKG2", 75, 125, "OFR008"));
+            add(new Package("PKG3", 175, 100, "OFR003"));
+            add(new Package("PKG4", 110, 60, "OFR002"));
+            add(new Package("PKG5", 155, 95, "NA"));
         }};
 
         Map<Package, Double> expected = new HashMap<>() {{
@@ -103,7 +103,7 @@ class PackageDispatcherTest {
             put(packages.get(3), 0.85);
             put(packages.get(4), 4.1899999999999995);
         }};
-        List<Vehicle> vehicles = Vehicle.parseVehicles("2 70 200");
+        List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
         PackageDispatcher dispatcher = new PackageDispatcher(100, vehicles);
 
         Map<Package, Double> report = dispatcher.dispatch(packages);
@@ -114,14 +114,14 @@ class PackageDispatcherTest {
     @Test
     public void shouldShowMaxTimeForPackagesIfNoVehicleIsValid() {
         List<Package> packages = new ArrayList<>() {{
-            add(Package.parsePackage("PKG1 110 60 OFR001"));
-            add(Package.parsePackage("PKG2 125 120 OFR008"));
-            add(Package.parsePackage("PKG3 175 180 OFR003"));
-            add(Package.parsePackage("PKG4 110 120 OFR002"));
-            add(Package.parsePackage("PKG5 155 140 NA"));
+            add(new Package("PKG1", 110, 60, "OFR001"));
+            add(new Package("PKG2", 125, 120, "OFR008"));
+            add(new Package("PKG3", 175, 180, "OFR003"));
+            add(new Package("PKG4", 110, 120, "OFR002"));
+            add(new Package("PKG5", 155, 140, "NA"));
         }};
 
-        List<Vehicle> vehicles = Vehicle.parseVehicles("2 70 100");
+        List<Vehicle> vehicles = InputParser.parseVehicles("2 70 100");
         PackageDispatcher dispatcher = new PackageDispatcher(100, vehicles);
 
         Map<Package, Double> report = dispatcher.dispatch(packages);

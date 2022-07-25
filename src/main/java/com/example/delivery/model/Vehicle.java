@@ -31,30 +31,12 @@ public class Vehicle {
         return BigDecimal.valueOf(value).setScale(2, RoundingMode.FLOOR).doubleValue();
     }
 
-    public static List<Vehicle> parseVehicles(String input) {
-        String[] inputArray = input.split(" ");
-
-        List<Vehicle> vehicles = new ArrayList<>();
-        try {
-            int nVehicles = Integer.parseInt(inputArray[0]);
-            int maxSpeed = Integer.parseInt(inputArray[1]);
-            int maxWeight = Integer.parseInt(inputArray[2]);
-            for (int i = 0; i < nVehicles; i++) vehicles.add(new Vehicle(maxSpeed, maxWeight));
-        } catch (Exception ex) { ex.printStackTrace(); }
-
-        return vehicles;
-    }
-
     public void setUnavailable() {
         isAvailable = false;
     }
 
     public boolean isAvailable() {
         return isAvailable;
-    }
-
-    public double availableIn() {
-        return availableIn;
     }
 
     public int getMaxSpeed() {

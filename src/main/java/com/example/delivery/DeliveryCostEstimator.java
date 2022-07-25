@@ -2,6 +2,7 @@ package com.example.delivery;
 
 import com.example.delivery.model.Package;
 import com.example.delivery.service.PackageDispatcher;
+import com.example.delivery.utils.InputParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class DeliveryCostEstimator {
 
         for (int i = 0; i < packagesCount; i++) {
             String input = scanner.nextLine();
-            Package pkg = Package.parsePackage(input);
+            Package pkg = InputParser.parsePackage(input);
             packages.add(pkg);
         }
 
