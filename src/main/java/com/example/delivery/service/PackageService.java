@@ -2,6 +2,7 @@ package com.example.delivery.service;
 
 import com.example.delivery.model.Offer;
 import com.example.delivery.model.Package;
+import com.example.delivery.model.PackageCostReport;
 import com.example.delivery.utils.OfferUtil;
 
 public class PackageService {
@@ -30,7 +31,7 @@ public class PackageService {
         return calculateCost(pkg) - calculateDiscount(pkg);
     }
 
-    public String details(Package pkg) {
-        return pkg.getPackageId() + "\t\t" + calculateDiscount(pkg) + "\t\t" + finalCost(pkg);
+    public PackageCostReport details(Package pkg) {
+        return new PackageCostReport(pkg.getPackageId(), calculateDiscount(pkg), finalCost(pkg));
     }
 }

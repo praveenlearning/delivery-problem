@@ -1,6 +1,7 @@
 package com.example.delivery.service;
 
 import com.example.delivery.model.Package;
+import com.example.delivery.model.PackageCostReport;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,8 +54,8 @@ class PackageServiceTest {
     public void shouldReturnDetailsAboutDiscountAndPrice() {
         Package pkg = new Package("PKG1", 75, 50, "OFR001");
 
-        String expected = "PKG1\t\t110\t\t990";
-        String finalAmount = packageService.details(pkg);
+        PackageCostReport expected = new PackageCostReport("PKG1", 110, 990);
+        PackageCostReport finalAmount = packageService.details(pkg);
 
         assertEquals(expected, finalAmount);
     }
