@@ -7,22 +7,24 @@ import com.example.delivery.utils.ListUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PackageDispatcher {
-    final List<Vehicle> vehicles = new ArrayList<>();
-    VehicleService vehicleService = new VehicleService();
+public class DeliveryService {
+    final List<Vehicle> vehicles;
+    final VehicleService vehicleService;
+    final PackageService packageService;
 
-
-    public PackageDispatcher(List<Vehicle> vehicles) {
-        this.vehicles.addAll(vehicles);
+    public DeliveryService(PackageService packageService, VehicleService vehicleService, List<Vehicle> vehicles) {
+        this.packageService = packageService;
+        this.vehicleService = vehicleService;
+        this.vehicles = vehicles;
     }
 
     public List<Package> findPackagesForVehicle(List<Package> packageList, Vehicle vehicle) {
         List<List<Package>> possibleSubsets = ListUtils.findSubsets(packageList);
 
         for (int i = packageList.size(); i > 0; i--) {
-            int finalI = i;
+            int packagesCount = i;
             List<List<Package>> validPackagesList = possibleSubsets.stream()
-                    .filter(subset -> subset.size() == finalI)
+                    .filter(subset -> subset.size() == packagesCount)
                     .filter(list -> ListUtils.totalWeightOfPackageList(list) < vehicle.getMaxWeight())
                     .collect(Collectors.toList());
 
@@ -60,7 +62,7 @@ public class PackageDispatcher {
 
             if (!packagesForVehicle.isEmpty()) {
                 Map<Package, Double> packageDeliveryReport;
-                packageDeliveryReport = vehicleService.deliver(vehicle, packagesForVehicle);
+                packageDeliveryReport = vehicleService.deliver(packagesForVehicle, vehicle);
                 deliveredPackagesReport.putAll(packageDeliveryReport);
             }
 

@@ -38,7 +38,7 @@ class VehicleServiceTest {
             put(packages.get(1), 1.33);
             put(packages.get(2), 2.5);
         }};
-        Map<Package, Double> deliveryReport = vehicleService.deliver(vehicle, packages);
+        Map<Package, Double> deliveryReport = vehicleService.deliver(packages, vehicle);
 
         assertEquals(expected, deliveryReport);
     }
@@ -64,8 +64,8 @@ class VehicleServiceTest {
             put(otherPackages.get(1), 5.33);
             put(otherPackages.get(2), 8.0);
         }};
-        vehicleService.deliver(vehicle, packages);
-        Map<Package, Double> deliveryReport = vehicleService.deliver(vehicle, otherPackages);
+        vehicleService.deliver(packages, vehicle);
+        Map<Package, Double> deliveryReport = vehicleService.deliver(otherPackages, vehicle);
 
         assertEquals(expected, deliveryReport);
     }

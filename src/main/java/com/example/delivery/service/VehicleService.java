@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class VehicleService {
-    public Map<Package, Double> deliver(Vehicle vehicle, List<Package> packages) {
+    public Map<Package, Double> deliver(List<Package> packages, Vehicle vehicle) {
         Map<Package, Double> deliveryTimeReport = packages.stream()
                 .collect(Collectors.toMap(pkg -> pkg, pkg -> calculateTime(vehicle, pkg)));
 
