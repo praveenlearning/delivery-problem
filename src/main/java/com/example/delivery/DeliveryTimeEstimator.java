@@ -1,6 +1,7 @@
 package com.example.delivery;
 
 import com.example.delivery.model.Package;
+import com.example.delivery.model.PackageDeliveryReport;
 import com.example.delivery.model.Vehicle;
 import com.example.delivery.service.DeliveryService;
 import com.example.delivery.service.PackageService;
@@ -32,7 +33,7 @@ public class DeliveryTimeEstimator {
         DeliveryService dispatcher = new DeliveryService(packageService, vehicleService, vehicles);
 
         System.out.println("Delivery Report");
-        Map<Package, Double> report = dispatcher.dispatch(new ArrayList<>(packages));
-        packages.forEach(pkg -> System.out.println(packageService.details(pkg) + " \t\t" + report.getOrDefault(pkg, 0.0)));
+        List<PackageDeliveryReport> reports = dispatcher.dispatch(new ArrayList<>(packages));
+        reports.forEach(System.out::println);
     }
 }

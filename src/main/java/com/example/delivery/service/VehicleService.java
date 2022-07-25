@@ -34,7 +34,7 @@ public class VehicleService {
                 .doubleValue();
     }
 
-    public List<List<Package>> filterValidPackagesForVehicle(Vehicle vehicle, List<List<Package>> packages) {
+    public List<List<Package>> filterDeliverablePackages(Vehicle vehicle, List<List<Package>> packages) {
         return packages.stream()
                 .filter(packagesList -> ListUtils.totalWeightOfPackageList(packagesList) < vehicle.getMaxWeight())
                 .collect(Collectors.toList());

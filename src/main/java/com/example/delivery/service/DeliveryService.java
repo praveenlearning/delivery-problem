@@ -1,6 +1,7 @@
 package com.example.delivery.service;
 
 import com.example.delivery.model.Package;
+import com.example.delivery.model.PackageDeliveryReport;
 import com.example.delivery.model.Vehicle;
 import com.example.delivery.utils.ListUtils;
 
@@ -23,7 +24,7 @@ public class DeliveryService {
 
         for (int packagesCount = packageList.size(); packagesCount > 0; packagesCount--) {
             List<List<Package>> filteredPackages = ListUtils.filterBySize(possibleSubsets, packagesCount);
-            List<List<Package>> validPackagesList = vehicleService.filterValidPackagesForVehicle(vehicle, filteredPackages);
+            List<List<Package>> validPackagesList = vehicleService.filterDeliverablePackages(vehicle, filteredPackages);
 
             int packagesListsCount = validPackagesList.size();
             if (packagesListsCount >= 1) {
@@ -38,28 +39,23 @@ public class DeliveryService {
         return new ArrayList<>();
     }
 
-    public Map<Package, Double> dispatch(List<Package> packages) {
-        Map<Package, Double> deliveredPackagesReport = new HashMap<>();
-
+    public List<PackageDeliveryReport> dispatch(List<Package> packages) {
+        Map<Package, Double> deliveryReports = new HashMap<>();
         while (packages.size() != 0 && vehicles.size() > 0) {
-            Optional<Vehicle> vehicleOption = vehicles.stream()
-                    .filter(Vehicle::isAvailable)
-                    .min(Comparator.comparingDouble(Vehicle::getAvailableIn));
-
+            Optional<Vehicle> vehicleOption = filterAvailableVehiclesInOrderOfAvailabilityTime(vehicles);
             if (vehicleOption.isEmpty()) break;
             Vehicle vehicle = vehicleOption.get();
+
             List<Package> packagesForVehicle = findDeliverablePackagesForVehicle(packages, vehicle);
-
             if (!packagesForVehicle.isEmpty()) {
-                Map<Package, Double> packageDeliveryReport;
-                packageDeliveryReport = vehicleService.deliver(packagesForVehicle, vehicle);
-                deliveredPackagesReport.putAll(packageDeliveryReport);
+                Map<Package, Double> packageDeliveryReport = vehicleService.deliver(packagesForVehicle, vehicle);
+                deliveryReports.putAll(packageDeliveryReport);
+                packages.removeAll(packagesForVehicle);
+            } else {
+                vehicle.setUnavailable();
             }
-
-            if (packagesForVehicle.size() > 0) packages.removeAll(packagesForVehicle);
-            else vehicle.setUnavailable();
         }
-        return deliveredPackagesReport;
+        return packageService.createDeliveryReport(deliveryReports);
     }
 
     private List<List<Package>> sortPackagesListsByWeightThenDistance(List<List<Package>> packagesLists) {
@@ -71,5 +67,11 @@ public class DeliveryService {
                     }
                     return sortCondition;
                 }).collect(Collectors.toList());
+    }
+
+    private Optional<Vehicle> filterAvailableVehiclesInOrderOfAvailabilityTime(List<Vehicle> vehicles) {
+        return vehicles.stream()
+                .filter(Vehicle::isAvailable)
+                .min(Comparator.comparingDouble(Vehicle::getAvailableIn));
     }
 }

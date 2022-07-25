@@ -1,14 +1,14 @@
 package com.example.delivery.service;
 
 import com.example.delivery.model.Package;
+import com.example.delivery.model.PackageCostReport;
+import com.example.delivery.model.PackageDeliveryReport;
 import com.example.delivery.model.Vehicle;
 import com.example.delivery.utils.InputParser;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,19 +47,24 @@ class DeliveryServiceTest {
             add(new Package("PKG5", 155, 95, "NA"));
         }};
 
-        Map<Package, Double> expected = new HashMap<>() {{
-            put(packages.get(0), 3.98);
-            put(packages.get(1), 1.78);
-            put(packages.get(2), 1.42);
-            put(packages.get(3), 0.85);
-            put(packages.get(4), 4.19);
-        }};
+        Set<PackageDeliveryReport> expected = new HashSet<>(new ArrayList<>() {{
+            add(new PackageDeliveryReport(new PackageCostReport("PKG2", 0, 1475), 1.78));
+            add(new PackageDeliveryReport(new PackageCostReport("PKG4", 105, 1395), 0.85));
+            add(new PackageDeliveryReport(new PackageCostReport("PKG3", 0, 2350), 1.42));
+            add(new PackageDeliveryReport(new PackageCostReport("PKG5", 0, 2125), 4.19));
+            add(new PackageDeliveryReport(new PackageCostReport("PKG1", 0, 750), 3.98));
+        }});
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
         DeliveryService dispatcher = new DeliveryService(packageService, vehicleService, vehicles);
 
-        Map<Package, Double> report = dispatcher.dispatch(packages);
+        Set<PackageDeliveryReport> report = new HashSet<>(dispatcher.dispatch(packages));
 
-        assertEquals(expected, report);
+        assertEquals(expected.size(), report.size());
+        expected.forEach(item -> {
+            assertTrue(report.contains(item));
+            report.remove(item);
+        });
+        assertEquals(0, report.size());
     }
 
     @Test
@@ -75,7 +80,7 @@ class DeliveryServiceTest {
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 100");
         DeliveryService dispatcher = new DeliveryService(packageService, vehicleService, vehicles);
 
-        Map<Package, Double> report = dispatcher.dispatch(packages);
+        List<PackageDeliveryReport> report = dispatcher.dispatch(packages);
 
         assertEquals(0, report.size());
     }

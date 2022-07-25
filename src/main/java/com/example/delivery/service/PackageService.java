@@ -3,6 +3,11 @@ package com.example.delivery.service;
 import com.example.delivery.model.Offer;
 import com.example.delivery.model.Package;
 import com.example.delivery.model.PackageCostReport;
+import com.example.delivery.model.PackageDeliveryReport;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PackageService {
     private final int basePrice;
@@ -29,5 +34,13 @@ public class PackageService {
 
     public PackageCostReport details(Package pkg) {
         return new PackageCostReport(pkg.getPackageId(), calculateDiscount(pkg), finalCost(pkg));
+    }
+
+    public List<PackageDeliveryReport> createDeliveryReport(Map<Package, Double> packageDeliveryReport) {
+        return packageDeliveryReport.entrySet()
+                .stream().map(entry -> {
+                    PackageCostReport costReport = details(entry.getKey());
+                    return new PackageDeliveryReport(costReport, entry.getValue());
+                }).collect(Collectors.toList());
     }
 }
