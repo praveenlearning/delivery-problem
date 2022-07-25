@@ -1,6 +1,7 @@
-package com.example.delivery.model;
+package com.example.delivery.service;
 
-import com.example.delivery.utils.InputParser;
+import com.example.delivery.model.Package;
+import com.example.delivery.model.Vehicle;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,14 +11,15 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VehicleTest {
+class VehicleServiceTest {
+    private final VehicleService vehicleService = new VehicleService();
 
     @Test
     public void calculateTimeToDeliverAPackage() {
         Package pkg = new Package("P1", 50, 30, null);
         Vehicle vehicle = new Vehicle(15, 60);
 
-        var timeToDeliver = vehicle.calculateTime(pkg);
+        var timeToDeliver = vehicleService.calculateTime(vehicle, pkg);
 
         assertEquals(2, timeToDeliver);
     }
@@ -36,7 +38,7 @@ class VehicleTest {
             put(packages.get(1), 1.33);
             put(packages.get(2), 2.5);
         }};
-        Map<Package, Double> deliveryReport = vehicle.deliver(packages);
+        Map<Package, Double> deliveryReport = vehicleService.deliver(vehicle, packages);
 
         assertEquals(expected, deliveryReport);
     }
@@ -62,8 +64,8 @@ class VehicleTest {
             put(otherPackages.get(1), 5.33);
             put(otherPackages.get(2), 8.0);
         }};
-        vehicle.deliver(packages);
-        Map<Package, Double> deliveryReport = vehicle.deliver(otherPackages);
+        vehicleService.deliver(vehicle, packages);
+        Map<Package, Double> deliveryReport = vehicleService.deliver(vehicle, otherPackages);
 
         assertEquals(expected, deliveryReport);
     }

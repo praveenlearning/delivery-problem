@@ -1,42 +1,16 @@
 package com.example.delivery.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Vehicle {
-    final int maxSpeed;
-    final int maxWeight;
+    private final int maxSpeed;
+    private final int maxWeight;
     private boolean isAvailable = true;
     private double availableIn = 0;
 
     public Vehicle(int maxSpeed, int maxWeight) {
         this.maxSpeed = maxSpeed;
         this.maxWeight = maxWeight;
-    }
-
-    public Map<Package, Double> deliver(List<Package> packages) {
-        Map<Package, Double> deliveryReport = packages.stream().collect(Collectors.toMap(pkg -> pkg, this::calculateTime));
-        Double max = deliveryReport.values().stream().max(Comparator.comparingDouble(value -> value)).get();
-
-        deliveryReport.replaceAll((aPackage, aDouble) -> availableIn + aDouble);
-        availableIn += 2 * max;
-
-        return deliveryReport;
-    }
-
-    public double calculateTime(Package pkg) {
-        double value = (double) pkg.distance / maxSpeed;
-        return BigDecimal.valueOf(value).setScale(2, RoundingMode.FLOOR).doubleValue();
-    }
-
-    public void setUnavailable() {
-        isAvailable = false;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
     }
 
     public int getMaxSpeed() {
@@ -47,8 +21,20 @@ public class Vehicle {
         return maxWeight;
     }
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
     public double getAvailableIn() {
         return availableIn;
+    }
+
+    public void setUnavailable() {
+        isAvailable = false;
+    }
+
+    public void setAvailableIn(double availableIn) {
+        this.availableIn = availableIn;
     }
 
     @Override
@@ -56,7 +42,8 @@ public class Vehicle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vehicle vehicle = (Vehicle) o;
-        return maxSpeed == vehicle.maxSpeed && maxWeight == vehicle.maxWeight && isAvailable == vehicle.isAvailable && Double.compare(vehicle.availableIn, availableIn) == 0;
+        return maxSpeed == vehicle.maxSpeed && maxWeight == vehicle.maxWeight && isAvailable == vehicle.isAvailable
+                && Double.compare(vehicle.availableIn, availableIn) == 0;
     }
 
     @Override

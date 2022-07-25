@@ -27,7 +27,7 @@ public class DeliveryTimeEstimator {
         List<Vehicle> vehicles = InputParser.parseVehicles(scanner.nextLine());
 
         PackageService packageService = new PackageService(baseCost);
-        PackageDispatcher dispatcher = new PackageDispatcher(baseCost, vehicles);
+        PackageDispatcher dispatcher = new PackageDispatcher(vehicles);
 
         System.out.println("Delivery Report");
         Map<Package, Double> report = dispatcher.dispatch(new ArrayList<>(packages));

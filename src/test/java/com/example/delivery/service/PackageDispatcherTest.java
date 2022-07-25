@@ -13,7 +13,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PackageDispatcherTest {
-    private final PackageDispatcher dispatcher = new PackageDispatcher(100);
 
     @Test
     public void shouldFindAvailablePackagesForVehicle() {
@@ -30,7 +29,7 @@ class PackageDispatcherTest {
             add(packages.get(3));
         }};
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
-        List<Package> packagesAvailable = new PackageDispatcher(100, vehicles).findPackagesForVehicle(packages, vehicles.get(0));
+        List<Package> packagesAvailable = new PackageDispatcher(vehicles).findPackagesForVehicle(packages, vehicles.get(0));
 
         assertEquals(expected, packagesAvailable);
 
@@ -54,7 +53,7 @@ class PackageDispatcherTest {
             put(packages.get(4), 4.1899999999999995);
         }};
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
-        PackageDispatcher dispatcher = new PackageDispatcher(100, vehicles);
+        PackageDispatcher dispatcher = new PackageDispatcher(vehicles);
 
         Map<Package, Double> report = dispatcher.dispatch(packages);
 
@@ -72,7 +71,7 @@ class PackageDispatcherTest {
         }};
 
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 100");
-        PackageDispatcher dispatcher = new PackageDispatcher(100, vehicles);
+        PackageDispatcher dispatcher = new PackageDispatcher(vehicles);
 
         Map<Package, Double> report = dispatcher.dispatch(packages);
 

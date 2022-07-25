@@ -8,15 +8,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PackageDispatcher {
-    final int basePrice;
     final List<Vehicle> vehicles = new ArrayList<>();
+    VehicleService vehicleService = new VehicleService();
 
-    public PackageDispatcher(int basePrice) {
-        this.basePrice = basePrice;
-    }
 
-    public PackageDispatcher(int basePrice, List<Vehicle> vehicles) {
-        this.basePrice = basePrice;
+    public PackageDispatcher(List<Vehicle> vehicles) {
         this.vehicles.addAll(vehicles);
     }
 
@@ -64,11 +60,7 @@ public class PackageDispatcher {
 
             if (!packagesForVehicle.isEmpty()) {
                 Map<Package, Double> packageDeliveryReport;
-                if (packages.size() == packagesForVehicle.size()) {
-                    packageDeliveryReport = vehicle.deliver(packagesForVehicle);
-                } else {
-                    packageDeliveryReport = vehicle.deliver(packagesForVehicle);
-                }
+                packageDeliveryReport = vehicleService.deliver(vehicle, packagesForVehicle);
                 deliveredPackagesReport.putAll(packageDeliveryReport);
             }
 
