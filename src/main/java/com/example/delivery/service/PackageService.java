@@ -18,13 +18,9 @@ public class PackageService {
 
     public int calculateDiscount(Package pkg) {
         Offer offer = offerService.getOffer(pkg.getOfferCode());
-        try {
-            int discount = offerService.apply(offer, pkg);
-            int totalCost = calculateCost(pkg);
-            return totalCost * discount / 100;
-        } catch (NullPointerException ex) {
-            return 0;
-        }
+        int discount = offerService.apply(offer, pkg);
+        int totalCost = calculateCost(pkg);
+        return totalCost * discount / 100;
     }
 
     public int finalCost(Package pkg) {

@@ -31,7 +31,7 @@ class DeliveryServiceTest {
             add(packages.get(3));
         }};
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
-        List<Package> packagesAvailable = new DeliveryService(packageService, vehicleService, vehicles).findPackagesForVehicle(packages, vehicles.get(0));
+        List<Package> packagesAvailable = new DeliveryService(packageService, vehicleService, vehicles).findDeliverablePackagesForVehicle(packages, vehicles.get(0));
 
         assertEquals(expected, packagesAvailable);
 
@@ -52,7 +52,7 @@ class DeliveryServiceTest {
             put(packages.get(1), 1.78);
             put(packages.get(2), 1.42);
             put(packages.get(3), 0.85);
-            put(packages.get(4), 4.1899999999999995);
+            put(packages.get(4), 4.19);
         }};
         List<Vehicle> vehicles = InputParser.parseVehicles("2 70 200");
         DeliveryService dispatcher = new DeliveryService(packageService, vehicleService, vehicles);

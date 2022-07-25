@@ -4,6 +4,7 @@ import com.example.delivery.model.Package;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListUtils {
     public static <T> List<List<T>> findSubsets(List<T> list) {
@@ -19,6 +20,12 @@ public class ListUtils {
             subsets.add(subset);
         }
         return subsets;
+    }
+
+    public static <T> List<List<T>> filterBySize(List<List<T>> subsets, int size) {
+        return subsets.stream()
+                .filter(list -> list.size() == size)
+                .collect(Collectors.toList());
     }
 
     public static int totalWeightOfPackageList(List<Package> packageList) {
