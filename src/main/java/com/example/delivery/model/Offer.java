@@ -2,19 +2,27 @@ package com.example.delivery.model;
 
 import java.util.function.Predicate;
 
-public class Offer {
-    final Predicate<Package> criteria;
+public abstract class Offer <T> {
+    final String offerCode;
+    final Predicate<T> criteria;
     final int discount;
 
-    public Offer(Predicate<Package> criteria, int discount) {
+    public Offer(String offerCode, Predicate<T> criteria, int discount) {
+        this.offerCode = offerCode;
         this.criteria = criteria;
         this.discount = discount;
     }
 
-    public int apply(Package pkg) {
-        if (criteria.test(pkg))
-            return discount;
-        else
-            return 0;
+    public String getOfferCode() {
+        return offerCode;
+    }
+
+    public Predicate<T> getCriteria() {
+        return criteria;
+    }
+
+    public int getDiscount() {
+        return discount;
     }
 }
+

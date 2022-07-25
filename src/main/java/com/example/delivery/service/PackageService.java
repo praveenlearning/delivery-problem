@@ -3,10 +3,10 @@ package com.example.delivery.service;
 import com.example.delivery.model.Offer;
 import com.example.delivery.model.Package;
 import com.example.delivery.model.PackageCostReport;
-import com.example.delivery.utils.OfferUtil;
 
 public class PackageService {
     private final int basePrice;
+    OfferService offerService = new OfferService();
 
     public PackageService(int basePrice) {
         this.basePrice = basePrice;
@@ -17,9 +17,9 @@ public class PackageService {
     }
 
     public int calculateDiscount(Package pkg) {
-        Offer offer = OfferUtil.allOffers.get(pkg.getOfferCode());
+        Offer offer = offerService.getOffer(pkg.getOfferCode());
         try {
-            int discount = offer.apply(pkg);
+            int discount = offerService.apply(offer, pkg);
             int totalCost = calculateCost(pkg);
             return totalCost * discount / 100;
         } catch (NullPointerException ex) {
